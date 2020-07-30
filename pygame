@@ -1,0 +1,60 @@
+import pygame
+import time
+import random
+pygame.init()
+white = (255,255,255)
+red=(255,0,0)
+disp = pygame.display.set_mode((800,600))
+pygame.display.set_caption('new game')
+clock = pygame.time.Clock()
+carImg = pygame.image.load('racecar.png')
+game=False
+n=0 #its for score
+x=400 #player object x and Y
+y=550
+x1=random.randrange(1,800)  #for enemy object x,y
+y1=0
+def cir(x,y,r):#enemy
+        pygame.draw.circle(disp,(255,255,0), [x,y],r)
+i=0
+while not game:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game = True
+            if event.type==pygame.KEYUP:
+                    if event.key==pygame.K_LEFT:
+                            x=x-40
+                    if event.key==pygame.K_RIGHT:
+                            x=x+40
+                    if event.key==pygame.K_UP:
+                            y=y-40
+                    if event.key==pygame.K_DOWN:
+                            y=y+40
+                
+         
+        disp.fill(white)
+        font = pygame.font.SysFont(None, 25)
+        text = font.render("score %d"%n, True, red)
+        cir(x1,y1,40)
+        y1=y1+3
+        if y1>=600:
+                y1=0
+                x1=random.randrange(1,800)
+                n=n+1
+        i=i+3
+        #if i==300:
+                #i=30
+        if y < y1+40:
+                 
+           if x > x1-40 and x < x1+40 or x+7 > x1-40 and x + 7 < x1+40:
+                font1 = pygame.font.SysFont(None, 75)
+                text1 = font1.render("end game", True, (0,0,0))
+                disp.blit(text1,(400,0))
+                time.sleep(2)
+        disp.blit(text,(0,0))
+        disp.blit(carImg,(x,y))
+        pygame.display.update()
+        clock.tick(i)
+        
+quit()
